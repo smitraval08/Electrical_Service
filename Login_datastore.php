@@ -3,11 +3,11 @@ session_start();
 
 $server = "localhost";
 $username = "root";
-$password = "";
+$password = "31613161"; // your MySQL password
 $dbname = "electric_service";
-$port = 3307;
 
-$con = mysqli_connect($server, $username, $password, $dbname, $port);
+// Connect to DB (default port 3306)
+$con = mysqli_connect($server, $username, $password, $dbname);
 if(!$con){ 
     die("❌ Connection Failed: ".mysqli_connect_error()); 
 }
@@ -16,19 +16,19 @@ if(isset($_POST['login'])){
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Backticks lagaye kyunki column names me space hai
-    $sql = "SELECT * FROM `eservice` WHERE `Email`='$email' AND `Password`='$password'";
+    // Login: check if email + password exist
+    $sql = "SELECT * FROM eservice WHERE email='$email' AND password='$password'";
     $result = mysqli_query($con, $sql);
 
     if(mysqli_num_rows($result) > 0){
         $row = mysqli_fetch_assoc($result);
 
-        // Sessions set
-        $_SESSION['user_id'] = $row['id'];   // id column hona chahiye table me
-        $_SESSION['user_name'] = $row['Full Name'];
-        $_SESSION['role'] = $row['Select Role'];
+        // Save data in session
+        $_SESSION['user_id'] = $row['id'];
+        $_SESSION['user_name'] = $row['full_name'];
+        $_SESSION['role'] = $row['role'];
 
-        // Redirect after successful login
+        // Redirect after login
         header("Location: ProblemPage.php");
         exit;
     } else {
