@@ -2,7 +2,7 @@
 session_start();
 if(!isset($_SESSION['user_id'])){ header("Location: login.php"); exit; }
 
-$con = mysqli_connect("localhost","root","","electric_service",3307);
+$con = mysqli_connect("localhost","root","31613161","electric_service");// aama password nakh taro
 if(!$con){ die("Connection Failed: ".mysqli_connect_error()); }
 
 if(isset($_POST['submit'])){
